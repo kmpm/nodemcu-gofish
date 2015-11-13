@@ -2,8 +2,6 @@
 srv=net.createServer(net.TCP)
 
 
-
-
 function notFound(conn)
 	conn:send("HTTP/1.1 404 file not found")
 	conn:close()
@@ -112,6 +110,3 @@ conn:on("receive", httpReceive)
 
 
 end)
-
-
-print("HTTP Server is now listening. Free Heap:", node.heap())
