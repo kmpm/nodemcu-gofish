@@ -10,7 +10,6 @@ uc:connect(2000, bc)
 print('setting up nmea')
 
 function nmea_in(data)
-	data = data .. '\n'
 	last_msg = data
 	--uart.write(0, 'got data' .. data)
 	nmea_out(data)
