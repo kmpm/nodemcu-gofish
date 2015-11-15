@@ -14,7 +14,7 @@ function getFile(conn, url, method)
 	conn:send("\r\n")
 	conn:on("sent", function(conn)
 		if DataToGet>=0 and method=="GET" then
-			if file.open(url, "r") then
+			if file.open('files/' .. url, "r") then
 				file.seek("set", DataToGet)
 				local line=file.read(512)
 				file.close()
@@ -110,3 +110,5 @@ conn:on("receive", httpReceive)
 
 
 end)
+
+print("HTTP Server is now listening. Free Heap:", node.heap())

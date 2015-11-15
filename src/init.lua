@@ -1,25 +1,14 @@
 majorVer, minorVer, devVer, chipid, flashid, flashsize, flashmode, flashspeed = node.info();
-print("Flash size is "..flashsize.." kBytes.")
 
-wifi.setmode(wifi.SOFTAP)
-cfg={}
-cfg.ssid="GoFish"
-cfg.pwd="supersecret"
-wifi.ap.config(cfg)
+print("Flash size:"..flashsize.." kBytes.")
+print('Chip ID:' .. chipid)
 
-cfg={}
-cfg.ip="169.254.1.1"
-cfg.netmask="255.255.255.0"
-cfg.gateway="169.254.1.1"
-wifi.ap.setip(cfg)
 
-ip, mask = wifi.ap.getip()
-print(ip .. '/' .. mask)
+dofile('lib/net-ap.lc')
 
-dhcp_config = {}
-dhcp_config.start = "169.254.1.129"
-wifi.ap.dhcp.config(dhcp_config)
-wifi.ap.dhcp.start()
+
+
+print('')
 
 last_msg = ""
 
@@ -30,12 +19,13 @@ function startup()
 		return
 	end
 	print('starting...')
-	dofile("servers.lc")
-	dofile("nmea.lc")
+	dofile("services/httpd.lc")
+	dofile('services/dns-liar.lc')
+	dofile("services/nmea.lc")
 end
 
 abort = false
-print('Send some xxxx Keystrokes now to abort startup.')
+print('Press x now to abort startup.')
 uart.on("data", 1, function(data)
 	print("receive from uart:", data)
 	if data=="x" then
@@ -45,6 +35,6 @@ uart.on("data", 1, function(data)
 		startup()
 	end
 end, 0)
-
-print ('Will launch services in 3 seconds...')
+print("Init done Free Heap:", node.heap())
+print ('Will startup services in 3 seconds...')
 tmr.alarm(1,3000,0,startup)

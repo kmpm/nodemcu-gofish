@@ -1,19 +1,30 @@
+nodemcu-gofish
+==============
+NMEA 0183 (serial) to wifi bridge using esp8266 flashed with nodemcu.
 
+This is to make a cheap, simple and fun solution for connecting 
+my Plotter/Sounder to my Android phone. 
+This is simply done by setting up the ESP8266 as a Soft AP with DHCP and 
+taking the RS-232 NMEA output from something that can produce NMEA sentences
+and broadcasting them over UDP on port 2000 to anything connected via Wifi on
+the ESP8266.
 
-## Wireshark NMEA
-Made a VERY simple dissector in dumps/nmea.lua
+This means that several "clients" at the same time can listen in on the NMEA
+traffic. For example an Android phone and a computer running kplex
 
-tshark -r second.pcapng -T fields -X lua_script:nmea0183.lua -e nmea.message >second.nmea
+## Hardware
+Basically a ESP-01 (or better) module connected to a MAX3232 breakout bord from Sparkfun
+all driven from a 12V battery using a DC/DC to 3.3v converter from pololu.
 
+This is currently only tested by connecting to a Lowrance Elite 4 CHIRP.
 
-## refs
+## Install
+* Flash the device with nodemcu __./esptool.py write_flash 0x00000 nodemcu_integer_0.9.6-dev_20150704.bin__
+* Restart it
+* Install the scripts and files using __make all__
 
-* http://www.catb.org/gpsd/NMEA.html#_dbk_depth_below_keel
-* http://www.sailoog.com/en/openplotter
-* http://www.oceandatarat.org/?page_id=723
-* http://opencpn.org/ocpn/nmea_sentences
-* http://stripydog.blogspot.se/2015/03/nmea-0183-over-ip-unwritten-rules-for.html
-* http://freenmea.net/
-* http://www.lowrance.com/Global/Lowrance/Documents/GoFree%20Tier%201%20Networking%20Specification.pdf
-
-* https://github.com/tkurki/navgauge
+## references
+* NMEA - http://www.catb.org/gpsd/NMEA.html
+* Kplex - http://www.stripydog.com/kplex/
+* NMEA over IP - http://stripydog.blogspot.se/2015/03/nmea-0183-over-ip-unwritten-rules-for.html
+* NMEA Dissector for Wireshark - https://github.com/kmpm/wireshark-nmea

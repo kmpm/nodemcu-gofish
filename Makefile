@@ -2,24 +2,23 @@
 
 
 
-.PHONY: all init servers nmea connect other debug
+.PHONY: all init httpd nmea connect other debug files
 
 
-all: init nmea servers 
+all: init lib services files
 	
-
 
 init:
 	cd src && nodemcu-uploader upload init.lua
 
-other: nmea servers
+lib:
+	cd src && nodemcu-uploader upload --compile lib/*.lua
 
-nmea:
-	cd src && nodemcu-uploader upload --compile nmea.lua
+services: 
+	cd src && nodemcu-uploader upload --compile services/*.lua 
 
-servers: 
-	cd src && nodemcu-uploader upload --compile servers.lua
-	cd files && nodemcu-uploader upload index.htm
+files:
+	nodemcu-uploader upload files/*
 
 
 connect:
@@ -28,6 +27,8 @@ connect:
 debug:
 	screen /dev/ttyUSB0 4800
 
+clean:
+	nodemcu-uploader file format
 
-files:
+showfiles:
 	nodemcu-uploader file list

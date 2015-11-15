@@ -7,7 +7,7 @@ bc = wifi.ap.getbroadcast()
 uc = net.createConnection(net.UDP)
 uc:connect(2000, bc)
 
-print('setting up nmea')
+print('setting up nmea, no more console after here')
 
 function nmea_in(data)
 	last_msg = data
