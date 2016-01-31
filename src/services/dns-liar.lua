@@ -9,8 +9,8 @@ dns_strIP=string.char(i1)..string.char(i2)..string.char(i3)..string.char(i4)
 svr=net.createServer(net.UDP)
 svr:on("receive",function(svr,dns_pl)
   decodedns(dns_pl)
-  --print('dns_tr' .. dns_tr)
-  --print('dns_q' .. dns_q)
+  log('dns_tr: ' .. dns_tr)
+  log('dns_q: ' .. dns_q)
   svr:send(dns_tr..dns_str1..dns_q..dns_str2..dns_strIP)
   collectgarbage("collect")
 end)
@@ -29,4 +29,4 @@ function decodedns(dns_pl)
     i=i+1
   end
 end
-print("DNS Server is now listening. Free Heap:", node.heap())
+log("DNS Server is now listening. Free Heap: " .. node.heap())
